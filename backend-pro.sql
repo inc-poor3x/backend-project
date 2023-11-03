@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 01, 2023 at 10:10 PM
+-- Generation Time: Nov 03, 2023 at 08:40 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -18,7 +18,7 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8mb4 */;
 
 --
--- Database: `backend-pro`
+-- Database: `project-back`
 --
 
 -- --------------------------------------------------------
@@ -32,18 +32,19 @@ CREATE TABLE `comment` (
   `User_Id` int(11) DEFAULT NULL,
   `Event_Id` int(11) DEFAULT NULL,
   `Comments_content` text DEFAULT NULL,
-  `Rate` int(11) DEFAULT NULL CHECK (`Rate` >= 1 and `Rate` <= 5)
+  `Rate` int(11) DEFAULT NULL CHECK (`Rate` >= 1 and `Rate` <= 5),
+  `statis` int(1) NOT NULL DEFAULT 3
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `comment`
 --
 
-INSERT INTO `comment` (`Id`, `User_Id`, `Event_Id`, `Comments_content`, `Rate`) VALUES
-(1, 1, 1, 'Exciting initiative, happy to be a part!', 5),
-(2, 2, 2, 'Rewarding experience helping out at the kitchen', 4),
-(3, 2, 3, 'Enjoyed planting trees and making a difference', 4),
-(4, 3, 1, 'Great turnout for the cleanup event', 3);
+INSERT INTO `comment` (`Id`, `User_Id`, `Event_Id`, `Comments_content`, `Rate`, `statis`) VALUES
+(1, 1, 1, 'Exciting initiative, happy to be a part!', 5, 3),
+(2, 2, 2, 'Rewarding experience helping out at the kitchen', 4, 3),
+(3, 2, 3, 'Enjoyed planting trees and making a difference', 4, 1),
+(4, 3, 1, 'Great turnout for the cleanup event', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -140,6 +141,26 @@ INSERT INTO `role` (`Id`, `Role`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `statis`
+--
+
+CREATE TABLE `statis` (
+  `id` int(11) NOT NULL,
+  `status` varchar(30) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `statis`
+--
+
+INSERT INTO `statis` (`id`, `status`) VALUES
+(1, 'Accepted'),
+(2, 'Rejected'),
+(3, 'Waiting for Acceptance');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `users`
 --
 
@@ -174,7 +195,8 @@ INSERT INTO `users` (`Id`, `username`, `password`, `email`, `date_of_birth`, `im
 ALTER TABLE `comment`
   ADD PRIMARY KEY (`Id`),
   ADD KEY `Event_Id` (`Event_Id`),
-  ADD KEY `User_Id` (`User_Id`);
+  ADD KEY `User_Id` (`User_Id`),
+  ADD KEY `statis` (`statis`);
 
 --
 -- Indexes for table `events`
@@ -195,6 +217,12 @@ ALTER TABLE `event_user`
 ALTER TABLE `role`
   ADD PRIMARY KEY (`Id`),
   ADD UNIQUE KEY `Role` (`Role`);
+
+--
+-- Indexes for table `statis`
+--
+ALTER TABLE `statis`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `users`
@@ -236,7 +264,8 @@ ALTER TABLE `users`
 --
 ALTER TABLE `comment`
   ADD CONSTRAINT `comment_ibfk_1` FOREIGN KEY (`Event_Id`) REFERENCES `events` (`E_Id`) ON DELETE CASCADE ON UPDATE CASCADE,
-  ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`User_Id`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `comment_ibfk_2` FOREIGN KEY (`User_Id`) REFERENCES `users` (`Id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `statis` FOREIGN KEY (`statis`) REFERENCES `statis` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `event_user`
