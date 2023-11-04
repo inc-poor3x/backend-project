@@ -1,0 +1,104 @@
+
+    /* styles.css */
+    body {
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      background-color: #f0f0f0;
+  }
+  * {
+    text-decoration: none;
+    font-family: "poppins";
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+  
+  .container {
+    margin-top: 150px;
+      background-color: #fff;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      justify-content: center;
+  }
+  .content-boday{
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+  }
+  #login-container{
+      display: flex;   
+  }
+  
+  h1 {
+      color: #333;
+      font-size: 24px;
+      margin: 0 0 20px;
+  }
+  
+  .input-container {
+      text-align: left;
+      margin: 10px 0;
+  }
+  
+  label {
+      display: block;
+      color: #555;
+      font-size: 14px;
+      margin-bottom: 5px;
+  }
+      input {
+          width: 358px;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 5px;
+          font-size: 14px;
+      }
+  
+  .signup-button {
+      border: none;
+      padding: 10px 20px;
+      border-radius: 25px;
+      background: white;
+      border: 1px solid black;
+      cursor: pointer;
+      font-size: 16px;
+      transition: all .8s;
+  
+  }
+  
+  .signup-button:hover {
+      background: black;
+      border: 2px groove white;
+      color: white;}
+  
+  .login-link {
+      color: #007bff;
+      text-decoration: none;
+  }
+  
+  .login-link:hover {
+      text-decoration: underline;
+  }
+  .namecheck,.user-check,.pass-check,.email-check, .dob-check{
+      color: red;
+      font-size: x-small;
+      font-weight: 100;
+  }
+  #userForm{
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      height: 700px;
+  }
+  @media only screen and (max-width: 425px) {
+      input{
+          width: 100%;
+      }
+    }

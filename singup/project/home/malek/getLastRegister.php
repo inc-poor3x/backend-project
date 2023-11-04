@@ -14,7 +14,10 @@
 include 'conn.php';
     // Method 'POST'
     // recieve 'e_id'
-
+    header("Access-Control-Allow-Origin: *");
+    header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
+    header("Access-Control-Allow-Headers: Content-Type");
+    header("Content-Type: application/json");
 if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
@@ -36,7 +39,7 @@ if($_SERVER['REQUEST_METHOD'] == 'POST'){
 
 
 
-$sql = "SELECT Num_of_sites 
+$sql = "SELECT Last_registration
         FROM `events` 
         WHERE E_Id = $e_id
 
@@ -45,7 +48,7 @@ $result = $conn->query($sql);
 $slotsRemain=array();
 if ($result->num_rows > 0) {
         $row = $result->fetch_assoc();
-        $slotsRemain[] = $row['Num_of_sites'];
+        $slotsRemain['Last_registration'] = $row['Last_registration'];
         header('Content-Type: application/json');
         echo json_encode($slotsRemain);
 }

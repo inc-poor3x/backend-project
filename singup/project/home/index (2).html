@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(244, 244, 244);
+            height: 130vh;
+        }
+        *{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            box-sizing: border-box;
+        }
+        .card-container {
+            display: flex;
+            margin: 50px;
+            justify-content: space-evenly;
+        }
+        .card img{
+            width: 300px;
+            height: 200px;
+        }
+        .card {
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+        }
+        .card .text {
+            display: flex;
+            justify-content:space-between;
+            padding: 20px;
+        }
+        button {
+            padding: 10px;
+            background-color: rgb(82, 82, 255);
+            color: white;
+            cursor: pointer;
+        }
+        .price-card {
+            /* display: none; */
+            display: flex;
+            margin: 100px;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .price-card img {
+            width: 80px;
+            background-color: #fff;
+            height: 80px;
+        }
+        .container-number span{
+            padding: 20px;
+            cursor: pointer;
+        }
+        .container-number {
+            background-color:#fff ;
+            display: flex;
+            border-radius: 10px;
+            align-items: center;
+        }
+        .price-card button {
+            color: #fff;
+            background-color: rgb(60, 60, 60);
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 90px;
+            cursor: pointer;
+        }
+        .total-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .number-totla {
+            margin-right:150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .number-totla span {
+            color: rgb(82, 82, 255);
+            font-weight: 900;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="card">
+            <img src="img/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg" alt="phone">
+            <div class="text">
+                <p>iphone 15 pro max</p>
+                <h4 id="price">900jd</h4>
+            </div>
+            <button id="btn-card1">add to card</button>
+        </div>
+        <div class="card">
+            <img src="img/h390-gallery-black-1-1.webp" alt="headset">
+            <div class="text">
+                <p>Headset</p>
+                <h4 id="price">300jd</h4>
+            </div>
+            <button id="btn-card2">add to card</button>
+        </div>
+        <div class="card">
+            <img src="img/keyboard.jpg" alt="keyboard">
+            <div class="text">
+                <p>keyboard</p>
+                <h4 id="price">100jd</h4>
+            </div>
+            <button>add to card</button>
+        </div>
+    </div>
+    <div class="card-container-price">
+        <div id="card-price1" class="price-card">
+            <img src="img/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg" alt="phone">
+            <div class="container-number">
+                <span id="number-">-</span>
+                <span style="color: #fff; cursor:auto; margin: 10px; border-radius: 20px; background-color: rgb(60, 60, 60);" id="number-price">1</span>
+                <span id="number+">+</span>
+            </div>
+            <h3 id="t-price">900</h3>
+            <button id="close-number">x</button>
+        </div>
+        <div id="card-price2" class="price-card">
+            <img src="img/h390-gallery-black-1-1.webp" alt="headset">
+            <div class="container-number">
+                <span id="number-2">-</span>
+                <span style="color: #fff; cursor:auto; margin: 10px; border-radius: 20px; background-color: rgb(60, 60, 60);" id="number-price2">1</span>
+                <span id="number+2">+</span>
+            </div>
+            <h3 id="t-price2">300</h3>
+            <button id="close-number2">x</button>
+        </div>
+    </div>
+    <div class="total-container">
+        <div class="number-totla">
+            <h1>total</h1>
+            <span id="total" class="total"></span>
+        </div>
+        <button id="btn-save">Save</button>
+    </div>
+    <script>
+
+let btn1 = document.getElementById('btn-card1');
+        let cardPrice = document.getElementById('card-price1');
+        let closeCard1 = document.getElementById('close-number')
+        btn1.addEventListener('click' , () =>{
+            cardPrice.style.display = "flex";
+        })
+        closeCard1.addEventListener('click' , () =>{
+            cardPrice.style.display = "none";
+        })    
+        let nums = document.getElementById('number-');
+        let numz = document.getElementById('number+');
+        let nump = document.getElementById('number-price')
+        nums.addEventListener('click' , () =>{
+            nump.innerHTML = nump.innerHTML-1 ;
+            
+            if(nump.innerHTML == 0){
+                cardPrice.style.display = "none";
+            }
+        let tPrice = document.getElementById('t-price');
+        let price = 900;
+        tPrice.innerText = price*nump.innerHTML;
+        });
+        let count = 1;
+        document.getElementById('number+').addEventListener('click', () => {
+        count++;
+        document.getElementById('number-price').innerHTML = count;
+        let tPrice = document.getElementById('t-price');
+        let price = 900;
+        tPrice.innerText = price*nump.innerHTML;
+    });
+        let btn2 = document.getElementById('btn-card2');
+        let cardPrice2 = document.getElementById('card-price2');
+        let closeCard2 = document.getElementById('close-number2')
+        btn2.addEventListener('click' , () =>{
+            cardPrice2.style.display = "flex";
+        })
+        closeCard2.addEventListener('click' , () =>{
+            cardPrice2.style.display = "none";
+        })    
+        let nums2 = document.getElementById('number-2');
+        let numz2 = document.getElementById('number+2');
+        let nump2 = document.getElementById('number-price2')
+        nums2.addEventListener('click' , () =>{
+            nump2.innerHTML = nump2.innerHTML-1 ;
+            if(nump2.innerHTML == 0){
+                cardPrice2.style.display = "none";
+            }
+        let tPrice2 = document.getElementById('t-price2');
+        let price2 = 300;
+        tPrice2.innerText = price2*nump2.innerHTML;
+        });
+
+        let count2 = 1;
+        document.getElementById('number+2').addEventListener('click', () => {
+        count2++;
+        document.getElementById('number-price2').innerHTML = count2;
+        let tPrice2 = document.getElementById('t-price2');
+        let price2 = 300;
+        tPrice2.innerText = price2*nump2.innerHTML;
+    });
+    
+    function total() {
+        let tPrice = document.getElementById('t-price');
+        let tPrice2 = document.getElementById('t-price2');
+        let totalf = document.getElementById('total');
+
+        totalf.innerHTML = tPrice.innerHTML+"+"+tPrice2.innerHTML;
+        console.log(typeof tPrice);
+    }
+    total();
+    </script>
+</body>
+</html>

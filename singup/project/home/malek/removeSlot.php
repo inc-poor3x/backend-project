@@ -1,15 +1,18 @@
-<!-- 
-    Method 'PUT'
-    recieve 
-    1. 'u_id'
-    2. 'e_id'
 
-    send
-    1. 
--->
+
 <?php
-include 'conn.php';
+// Method 'PUT'
+// recieve 
+// 1. 'u_id'
+// 2. 'e_id'
 
+// send
+// 1. 
+include 'conn.php';
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
 
 if($_SERVER['REQUEST_METHOD'] == 'PUT'){
 

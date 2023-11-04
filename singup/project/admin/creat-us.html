@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create User</title>
+</head>
+<style>
+    *{
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #101827;
+        margin: 0 20%;
+    }
+
+    h1 {
+        color: #FFF;
+    }
+
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #FFF;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus,
+    input[type="date"]:focus {
+        border-color: #2869ff;
+    }
+
+    button {
+        background-color: #2869ff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #6291fd;
+    }
+
+    #message {
+        color: #ff0000;
+        margin-top: 10px;
+    }
+</style>
+<body>
+    <h1>Create User</h1>
+    <div id="message"></div>
+
+    <form id="userForm" method="post">
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required><br><br>
+
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required><br><br>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required><br><br>
+
+        <label for="date_of_birth">Date of Birth:</label>
+        <input type="date" id="date_of_birth" name="date_of_birth" required><br><br>
+
+        <label for="img">Profile Image URL:</label>
+        <input type="text" id="img" name="img"><br><br>
+
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name"><br><br>
+
+
+
+        <button type="button" onclick="createUser()">Create User</button>
+        <button type="button" ><a href="/project/admin/usera.html">Back</a></button>
+
+    </form>
+
+    <script>
+        function createUser() {
+            var formData = {
+                username: document.getElementById("username").value,
+                password: document.getElementById("password").value,
+                email: document.getElementById("email").value,
+                date_of_birth: document.getElementById("date_of_birth").value,
+                img: document.getElementById("img").value,
+                name: document.getElementById("name").value
+           
+            };
+
+            // Make a POST request using the Fetch API
+            
+            fetch('http://localhost/singup/project/admin/creat-us.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("message").textContent = data.message || data.error;
+                console.log(JSON.stringify(data));
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

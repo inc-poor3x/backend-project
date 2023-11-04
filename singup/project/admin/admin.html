@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!--  -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Search</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <form>
+            <input type="search" name="search" id="search">
+            <input type="submit" id="searchButton" value="Search">
+        </form>
+        <div class="container mt-4">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Event ID</th>
+                        <th>Event Name</th>
+                        <th>Event Date</th>
+                        <th>Category</th>
+                        <th>Location</th>
+                        <th>Number of Sites</th>
+                        <th>Description</th>
+                        <th>Image</th>
+                        <th>Last Registration Date</th>
+                    </tr>
+                </thead>
+                <tbody id="eventTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const searchButton = document.getElementById('searchButton');
+
+        searchButton.addEventListener('keyup', (e) => {
+            e.preventDefault();
+            const content = document.getElementById('lala').value;
+
+            // Clear existing table rows
+            tableBody.innerHTML = "";
+
+            // Fetch data based on the search input
+            const url = 'http://localhost/singup/project/admin/getEventByCD.php';
+            const dataToSend = {
+                'content': content,
+            };
+        
+
+            const requestOptions = {
+                method: 'POST',
+                body: JSON.stringify(dataToSend),
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            };
+            console.log(requestOptions);
+
+            fetch(url, requestOptions)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    console.log(data);
+                    data.forEach(event => {
+                        const row = document.createElement("tr");
+                        for (const key in event) {
+                            const cell = document.createElement("td");
+                            cell.textContent = event[key];
+                            row.appendChild(cell);
+                        }
+                        tableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('There was a problem with the fetch operation:', error);
+                });
+        });
+    </script>
+</body>
+</html>

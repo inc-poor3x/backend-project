@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Update Event</title>
+</head>
+<style>
+    
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        background-color: #007BFF;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+
+    #responseMessage {
+        margin-top: 10px;
+        padding: 10px;
+        background-color: #f0f0f0;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+</style>
+<body>
+    <h1>Update Event</h1>
+
+    <form id="updateEventForm" method="post">
+        <!-- Use a hidden input to specify the method -->
+        <input type="hidden" name="_method" value="PUT">
+      
+        <label for="eventName">Event Name:</label>
+        <input type="text" name="E_name" id="eventName" required><br>
+
+        <label for="eventDate">Event Date:</label>
+        <input type="date" name="E_date" id="eventDate" ><br>
+
+        <label for="eventCategory">Category:</label>
+        <input type="text" name="Category" id="eventCategory"><br>
+
+        <label for="eventLocation">Location:</label>
+        <input type="text" name="Location" id="eventLocation" ><br>
+
+        <label for="eventSites">Number of Sites:</label>
+        <input type="number" name="Num_of_sites" id="eventSites" ><br>
+
+        <label for="eventDescription">Description:</label>
+        <textarea name="Description" id="eventDescription"></textarea><br>
+
+        <label for="eventImage">Image URL:</label>
+        <input type="text" name="Img" id="eventImage" ><br>
+
+        <button type="submit">Update Event</button>
+    </form>
+
+    <div id="responseMessage"></div>
+
+    <script>
+        document.getElementById("updateEventForm").addEventListener("submit", function (e) {
+          e.preventDefault();
+      
+          const formData = new FormData(this);
+      
+          // Get the "id" value from the URL
+          const urlSearchParams = new URLSearchParams(window.location.search);
+          const eventId = urlSearchParams.get("id");
+      
+          // Add "id" to the formData
+          formData.append("id", eventId);
+      
+          const eventUpdateData = {};
+      
+          for (const [key, value] of formData.entries()) {
+            eventUpdateData[key] = value;
+          }
+      
+          // Make a PUT request using the Fetch API
+          fetch("http://localhost/singup/project/admin/updateeven.php", {
+            method: "PUT",
+            body: JSON.stringify(eventUpdateData),
+            headers: {
+              "Content-Type": "application/json",
+            },
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              const responseMessage = document.getElementById("responseMessage");
+      
+              if (data.error) {
+                responseMessage.innerHTML = `<div style="color: red;">Error: ${data.error}</div>`;
+              } else {
+                responseMessage.innerHTML = `<div style="color: green;">${data.message}</div>`;
+              }
+            })
+            .catch((error) => {
+              console.error("Error:", error);
+            });
+        });
+      </script>
+      
+      
+</body>
+</html>

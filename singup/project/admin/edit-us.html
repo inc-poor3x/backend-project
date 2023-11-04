@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+
+body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="datetime-local"],
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #555;
+        }
+
+        /* Comment Card Styling */
+        .comment-card {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 10px;
+            margin-top: 10px;
+        }
+
+        .comment-card h2 {
+            margin: 0;
+        }
+
+        .comment-card p {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+    <h1>Edit User Profile Form</h1>
+    <form action="edit_profile.php" method="post">
+        <label for="edit_fullname">Full Name:</label>
+        <input type="text" name="edit_fullname" id="edit_fullname" required><br>
+
+        <label for="edit_email">Email:</label>
+        <input type="email" name="edit_email" id="edit_email" required><br>
+
+        <input type="submit" value="Edit Profile"> 
+    <!-- </form>   -->
+</body>
+</html>

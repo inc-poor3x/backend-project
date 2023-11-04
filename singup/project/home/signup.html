@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sign Up</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+    integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <!-- <link rel="stylesheet" href="../navAndFooter.css"> -->
+  <link rel="stylesheet" href="signup.css">
+</head>
+
+<body>
+  <div class="content-boday">
+    <div id="login-container" class="container">
+      
+      <form id="userForm" method="post">
+
+
+        <h1>Sign Up</h1>
+
+        <div class="input-container">
+          <label for="name">Name:</label>
+          <input type="text" id="name" name="name">
+          <div class="namecheck"></div>
+        </div>
+
+        <div class="input-container">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+          <div class="user-check"></div>
+
+        </div>
+
+        <div class="input-container">
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+          <div class="pass-check"></div>
+        </div>
+
+        <div class="input-container">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" required>
+          <div class="email-check"></div>
+        </div>
+
+        <div class="input-container">
+          <label for="date_of_birth">Date of Birth:</label>
+          <input type="date" id="date_of_birth" name="date_of_birth" required>
+          <div class="dob-check"></div>
+        </div>
+
+        <div class="input-container">
+          <label for="img">Profile Image URL:</label>
+          <input type="text" id="img" name="img">
+          
+        </div>
+
+
+
+        <button class="signup-button" type="button" id="login-button" onclick="createUser()">Sign Up</button>
+        <p>Already have an account? <a href="login.html" class="login-link">Log In</a></p>
+      </form>
+    </div>
+  </div>
+  <script src="signup.js"></script>
+  <!-- <script>
+    function createUser() {
+        var formData = {
+            username: document.getElementById("username").value,
+            password: document.getElementById("password").value,
+            email: document.getElementById("email").value,
+            date_of_birth: document.getElementById("date_of_birth").value,
+            img: document.getElementById("img").value,
+            name: document.getElementById("name").value
+       
+        };
+
+        // Make a POST request using the Fetch API
+        
+        fetch('http://localhost/singup/project/admin/creat-us.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(formData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById("message").textContent = data.message || data.error;
+            console.log(JSON.stringify(data));
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+</script> -->
+</body>
+
+</html>

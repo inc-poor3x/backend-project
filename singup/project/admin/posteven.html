@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Create Event</title>
+</head>
+<style>
+    /* Your CSS styles go here */
+    *{
+        color: #fff;
+        text-align: center;
+        text-decoration: none;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #101827;
+        margin: 0 20%;
+    }
+
+    h1 {
+        color: #fff;
+    }
+
+
+    label {
+        font-weight: bold;
+    }
+
+    input, textarea {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 10px;
+        border: 1px solid #2869ff;
+        border-radius: 5px;
+    }
+
+    button {
+        background-color: #2869ff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color:#6291fd;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background-color:#101827 ;
+    }
+
+    h1 {
+        color: #FFF;
+    }
+
+    form {
+        max-width: 400px;
+        margin: 0 auto;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 5px;
+        color: #FFF;
+    }
+
+    input[type="text"],
+    input[type="password"],
+    input[type="email"],
+    input[type="date"] {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+    }
+
+    input[type="text"]:focus,
+    input[type="password"]:focus,
+    input[type="email"]:focus,
+    input[type="date"]:focus {
+        border-color: #2869ff;
+    }
+
+    button {
+        background-color: #2869ff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    button:hover {
+        background-color: #6291fd;
+    }
+
+    #message {
+        color: #ff0000;
+        margin-top: 10px;
+    }
+</style>
+
+<body>
+    <h1>Create Event</h1>
+    <div id="message"></div>
+
+    <form id="eventForm" method="post">
+        <label for="E_name">Event Name:</label>
+        <input type="text" id="E_name" name="E_name" required><br><br>
+
+        <label for="E_date">Event Date:</label>
+        <input type="date" id="E_date" name="E_date" required><br><br>
+
+        <label for="Category">Category:</label>
+        <input type="text" id="Category" name="Category" required><br><br>
+
+        <label for="Location">Location:</label>
+        <input type="text" id="Location" name="Location" required><br><br>
+
+        <label for="Num_of_sites">Number of Sites:</label>
+        <input type="number" id="Num_of_sites" name="Num_of_sites" required><br><br>
+
+        <label for="Description">Description:</label>
+        <textarea id="Description" name="Description" rows="4" required></textarea><br><br>
+
+        <label for="Img">Image URL:</label>
+        <input type="text" id="Img" name="Img" required><br><br>
+
+        <button type="button" onclick="ahmad()">Create Event</button>
+        <button type="button"><a href="/project/admin/index.html">Back</a></button>
+        
+    </form>
+
+    <script>
+     function ahmad() {
+            var formData = {
+                E_name: document.getElementById("E_name").value,
+                E_date: document.getElementById("E_date").value,
+                Category: document.getElementById("Category").value,
+                Location: document.getElementById("Location").value,
+                Num_of_sites: document.getElementById("Num_of_sites").value,
+                Description: document.getElementById("Description").value,
+                Img: document.getElementById("Img").value
+            };
+
+            // Make a POST request using the Fetch API
+            fetch('http://localhost/singup/project/admin/posteven.php', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                 document.getElementById("message").textContent = data.message || data.error;
+                 console.log(JSON.stringify(data));
+            })
+            
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>

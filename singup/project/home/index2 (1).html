@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            background-color: rgb(244, 244, 244);
+            height: 130vh;
+        }
+        *{
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            border: 0;
+            box-sizing: border-box;
+        }
+        .card-container {
+            display: flex;
+            margin: 50px;
+            justify-content: space-evenly;
+        }
+        .card img{
+            width: 300px;
+            height: 200px;
+        }
+        .card {
+            margin: 5px;
+            display: flex;
+            flex-direction: column;
+            background-color: rgb(255, 255, 255);
+        }
+        .card .text {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+        }
+        button {
+            padding: 10px;
+            background-color: rgb(82, 82, 255);
+            color: white;
+            cursor: pointer;
+        }
+        .price-card {
+            display: none;
+            margin: 100px;
+            align-items: center;
+            justify-content: space-evenly;
+        }
+        .price-card img {
+            width: 80px;
+            background-color: #fff;
+            height: 80px;
+        }
+        .container-number span{
+            padding: 20px;
+            cursor: pointer;
+        }
+        .container-number {
+            background-color:#fff ;
+            display: flex;
+            border-radius: 10px;
+            align-items: center;
+        }
+        .price-card button {
+            color: #fff;
+            background-color: rgb(60, 60, 60);
+            padding: 10px;
+            font-size: 20px;
+            border-radius: 90px;
+            cursor: pointer;
+        }
+        .total-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .number-totla {
+            margin-right: 150px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .number-totla span {
+            color: rgb(82, 82, 255);
+            font-weight: 900;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="card">
+            <img src="img/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg" alt="phone">
+            <div class="text">
+                <p>iphone 15 pro max</p>
+                <h4 class="price">900jd</h4>
+            </div>
+            <button class="add-to-cart" data-price="900">add to cart</button>
+        </div>
+        <div class="card">
+            <img src="img/h390-gallery-black-1-1.webp" alt="headset">
+            <div class="text">
+                <p>Headset</p>
+                <h4 class="price">300jd</h4>
+            </div>
+            <button class="add-to-cart" data-price="300">add to cart</button>
+        </div>
+        <div class="card">
+            <img src="img/keyboard.jpg" alt="keyboard">
+            <div class="text">
+                <p>keyboard</p>
+                <h4 class="price">100jd</h4>
+            </div>
+            <button class="add-to-cart" data-price="100">add to cart</button>
+        </div>
+    </div>
+    <div class="card-container-price">
+        <div id="card-price1" class="price-card">
+            <img src="img/Apple-iPhone-15-Pro-Max_-blue-titanium_featured-image-packshot-review.jpg" alt="phone">
+            <div class="container-number">
+                <span class="decrement">-</span>
+                <span class="number" style="color: #fff; cursor:auto; margin: 10px; border-radius: 20px; background-color: rgb(60, 60, 60);">1</span>
+                <span class="increment">+</span>
+            </div>
+            <h3 class="total-price">900</h3>
+            <button class="close">x</button>
+        </div>
+        <div id="card-price2" class="price-card">
+            <img src="img/h390-gallery-black-1-1.webp" alt="headset">
+            <div class="container-number">
+                <span class="decrement">-</span>
+                <span class="number" style="color: #fff; cursor:auto; margin: 10px; border-radius: 20px; background-color: rgb(60, 60, 60);">1</span>
+                <span class="increment">+</span>
+            </div>
+            <h3 class="total-price">300</h3>
+            <button class="close">x</button>
+        </div>
+    </div>
+    <div class="total-container">
+        <div class="number-total">
+            <h1>total</h1>
+            <span id="total" class="total"></span>
+        </div>
+        <button id="btn-save">Save</button>
+    </div>
+    <script>
+        const cartItems = document.querySelectorAll('.add-to-cart');
+        const cartTotal = document.getElementById('total');
+        const cartSaveButton = document.getElementById('btn-save');
+
+        let totalValue = 0;
+
+        cartItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const price = parseInt(item.getAttribute('data-price'));
+                totalValue += price;
+                updateTotal();
+            });
+        });
+
+        function updateTotal() {
+            cartTotal.textContent = totalValue + 'jd';
+        }
+
+        const cartContainers = document.querySelectorAll('.price-card');
+
+        cartContainers.forEach(container => {
+            const incrementButton = container.querySelector('.increment');
+            const decrementButton = container.querySelector('.decrement');
+            const numberElement = container.querySelector('.number');
+            const totalPriceElement = container.querySelector('.total-price');
+            const closeButton = container.querySelector('.close');
+
+            incrementButton.addEventListener('click', () => {
+                let number = parseInt(numberElement.textContent);
+                number++;
+                numberElement.textContent = number;
+                updateTotalPrice(container, number);
+            });
+
+            decrementButton.addEventListener('click', () => {
+                let number = parseInt(numberElement.textContent);
+                if (number > 1) {
+                    number--;
+                    numberElement.textContent = number;
+                    updateTotal
+
+                }
+            })
+        })
+function updateTotalPrice(container, quantity) {
+    const priceElement = container.querySelector('.total-price');
+    const price = parseInt(container.querySelector('.price').textContent);
+    priceElement.textContent = price * quantity;
+}
+
+cartContainers.forEach(container => {
+    const incrementButton = container.querySelector('.increment');
+    const decrementButton = container.querySelector('.decrement');
+    const numberElement = container.querySelector('.number');
+    const closeButton = container.querySelector('.close');
+
+    incrementButton.addEventListener('click', () => {
+        let number = parseInt(numberElement.textContent);
+        number++;
+        numberElement.textContent = number;
+        updateTotalPrice(container, number);
+    });
+
+    decrementButton.addEventListener('click', () => {
+        let number = parseInt(numberElement.textContent);
+        if (number > 1) {
+            number--;
+            numberElement.textContent = number;
+            updateTotalPrice(container, number);
+        }
+    });
+
+    closeButton.addEventListener('click', () => {
+        container.style.display = "none";
+    });
+});
+
+cartSaveButton.addEventListener('click', () => {
+    alert("Order saved!");
+});
+</script>
+</body>
+</html>

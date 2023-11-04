@@ -1,28 +1,28 @@
-<!-- 
-    Method 'PUT'
-    recieve 
-    1. 'u_id'
-    2. 'e_id'
 
-    send
-    1. 
--->
+
 <?php
 include 'conn.php';
-
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: PUT, GET, POST, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type");
+header("Content-Type: application/json");
 
 if($_SERVER['REQUEST_METHOD'] == 'PUT'){
 
-
+    // Method 'PUT'
+    // recieve 
+    // 1. 'u_id'
+    // 2. 'e_id'
 
         $json_data = file_get_contents('php://input');
 
         $data = json_decode($json_data, true);
     
+
         if ($data === null) {
             echo "Invalid JSON data.";
         } else {
-            var_dump($data);
+            // var_dump($data);
         }
 
         $u_id = filter_var($data['u_id'], FILTER_VALIDATE_INT);
@@ -43,8 +43,11 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT'){
                 $userDates[] = $row;
             }
         }
+        // echo '<pre>';
+        // print_r($userDates);
+        // echo '</pre>';
 
-        print_r($userDates);
+        // print_r($userDates);
         //get event date
         $sql = "SELECT E_date FROM `events` WHERE E_Id = $e_id      
                 ";
@@ -56,12 +59,17 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT'){
                 $eventDate= $row['E_date'];
             }
         }
-        echo $eventDate;
 
+        $counter = 0;
+        for ($i=0; $i <count($userDates) ; $i++) { 
+            if (in_array($eventDate, $userDates[$i])) {
+                $counter++;
+            }
+        }
 
         
 
-        if (in_array($eventDate, $userDates)) {
+        if ($counter>0) {
             echo "cant register";
         }
         else {
@@ -78,50 +86,13 @@ if($_SERVER['REQUEST_METHOD'] == 'PUT'){
                         ;";
                 $result = $conn->query($sql);   
         }
+        header('Content-Type: application/json');
+
 
 }else {
     // This is not a POST request
-    echo "This endpoint only accepts PUT requests.";
+    echo "This endpoint only accepts POST requests.";
 }
-
-
-
-
-
-
-// function already_registered($e,$u,$conn){
-//     $sql = "SELECT * 
-//     FROM `event_user` 
-//     WHERE `User_Id`= $u AND `Event_Id` = $e;
-//     ;";
-//     $result = $conn->query($sql);
-//     if ($result->num_rows > 0) {
-//         echo "user already registered";
-//         return 0;
-//     }else{
-//         return true;
-//     }
-// }
-
-// function user_events_dates($u,$conn){
-//     //get all user events dates
-//     $sql1 = "SELECT events.E_date
-//     FROM event_user 
-//     JOIN events ON events.E_Id = event_user.Event_Id 
-//     WHERE event_user.User_Id = $u ;         
-//     ";
-//     $result1 = $conn->query($sql1);
-
-//     $userDates = array();
-//     if ($result1->num_rows > 0) {
-//         while ($row = $result1->fetch_assoc()) {
-//             $userDates[] = $row;
-//         }
-//     }
-//         return $userDates;
-    
-
-// }
 
 
 // $conn->close();

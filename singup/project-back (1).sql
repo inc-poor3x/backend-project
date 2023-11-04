@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 03, 2023 at 08:40 AM
+-- Generation Time: Nov 04, 2023 at 08:13 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -41,10 +41,12 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`Id`, `User_Id`, `Event_Id`, `Comments_content`, `Rate`, `statis`) VALUES
-(1, 1, 1, 'Exciting initiative, happy to be a part!', 5, 3),
-(2, 2, 2, 'Rewarding experience helping out at the kitchen', 4, 3),
-(3, 2, 3, 'Enjoyed planting trees and making a difference', 4, 1),
-(4, 3, 1, 'Great turnout for the cleanup event', 3, 1);
+(3, 2, 3, 'Enjoyed planting trees and making a difference', 4, 3),
+(5, 5, 1, 'Great event!', 5, 3),
+(6, 2, 3, 'Could be better.', 3, 3),
+(7, 6, 4, 'Amazing experience!', 4, 3),
+(8, 6, 5, 'I didnt like it.', 2, 3),
+(9, 5, 4, 'Not my cup of tea.', 1, 3);
 
 -- --------------------------------------------------------
 
@@ -60,7 +62,7 @@ CREATE TABLE `events` (
   `Location` varchar(100) DEFAULT NULL,
   `Num_of_sites` int(11) DEFAULT NULL,
   `Description` text DEFAULT NULL,
-  `Img` varchar(100) DEFAULT NULL,
+  `Img` varchar(255) DEFAULT NULL,
   `Last_registration` date DEFAULT curdate()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -69,10 +71,10 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`E_Id`, `E_name`, `E_date`, `Category`, `Location`, `Num_of_sites`, `Description`, `Img`, `Last_registration`) VALUES
-(1, 'Community Cleanup', '2023-12-05', 'Volunteer', 'Park XYZ', 50, 'Join us to clean up the local park', 'cleanup_event.jpg', '2023-11-01'),
-(2, 'Soup Kitchen Assistance', '2023-12-06', 'Volunteer', 'Community Center', 30, 'Help serve meals at the local soup kitchen', 'soup_kitchen_event.jpg', '2023-11-01'),
-(3, 'Tree Planting Drive', '2023-12-07', 'Volunteer', 'City Nursery', 100, 'Plant trees for a greener environment', 'tree_planting_event.jpg', '2023-11-01'),
-(4, 'Animal Shelter Support', '2023-12-08', 'Volunteer', 'Animal Shelter', 20, 'Assist in caring for shelter animals', 'animal_shelter_event.jpg', '2023-11-01');
+(1, 'Community Cleanup', '2015-12-08', 'Volunteer', 'Park XYZ', 42, 'Join us to clean up the local park', 'https://images-ext-1.discordapp.net/external/by6BVwdDQF7nqiRd83xgZloYH7oxbh2Si3qBBWOIGSw/https/students.1fbusa.com/hubfs/25%2520Ways%2520to%2520Volunteer%2520in%2520Your%2520Community.jpg?width=1276&height=670', '2023-11-01'),
+(3, 'Tree Planting Drive', '2019-12-10', 'Volunteer', 'City Nursery', 100, 'Plant trees for a greener environment', 'https://images-ext-2.discordapp.net/external/HQm-QgdmPcVXx-jdtawj07uE45C-ByzFsWJuEbXRjo0/https/www.101highlandlakes.com/uploads/media/default/0001/24/a4ff4bedeaec4abb29bb9a9134c9399a42201ce6.jpeg?width=750&height=370', '2023-11-01'),
+(4, 'Animal Shelter Support', '2017-12-07', 'Volunteer', 'Animal Shelter', 20, 'Assist in caring for shelter animals', 'https://images-ext-1.discordapp.net/external/6aI1T2c2B2A-i5Oy6IZIj98utWsCfWKSTtdS954EADo/%3Fq%3Dtbn%3AANd9GcT6bPlmx9sEzttZCQ_C9LGLxv0XU_RF7qRZHw%26usqp%3DCAU/https/encrypted-tbn0.gstatic.com/images?width=388&height=202', '2023-11-01'),
+(5, 'aahmad 1', '2023-11-10', 'Music', 'City Park', 100, 'An amazing music festival in the park.', 'https://images-ext-1.discordapp.net/external/YXkCLD-GwXCvpwO0givVaEN377L8XzOSROlAeY_cfe8/https/s3.amazonaws.com/cioc.communityconnection/volunteerconnection/volunteer_group.jpeg?width=691&height=410', '2023-11-03');
 
 -- --------------------------------------------------------
 
@@ -90,34 +92,8 @@ CREATE TABLE `event_user` (
 --
 
 INSERT INTO `event_user` (`User_Id`, `Event_Id`) VALUES
-(1, 4),
-(2, 3),
-(3, 2),
-(4, 1);
-
---
--- Triggers `event_user`
---
-DELIMITER $$
-CREATE TRIGGER `check_registration_time` BEFORE INSERT ON `event_user` FOR EACH ROW BEGIN
-    DECLARE registration_count INT;
-
-    SELECT COUNT(*) INTO registration_count
-    FROM Event_User
-    WHERE User_Id = NEW.User_Id
-    AND Event_Id IN (
-        SELECT Event_Id
-        FROM Events
-        WHERE E_date = (SELECT E_date FROM Events WHERE E_Id = NEW.Event_Id)
-    );
-
-    IF registration_count > 0 THEN
-        SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'User already registered for an event at the same time';
-    END IF;
-END
-$$
-DELIMITER ;
+(2, 1),
+(2, 3);
 
 -- --------------------------------------------------------
 
@@ -167,12 +143,12 @@ INSERT INTO `statis` (`id`, `status`) VALUES
 CREATE TABLE `users` (
   `Id` int(11) NOT NULL,
   `username` varchar(50) NOT NULL,
-  `password` varchar(50) DEFAULT NULL,
+  `password` varchar(50) NOT NULL,
   `email` varchar(100) NOT NULL,
   `date_of_birth` date NOT NULL,
-  `img` varchar(100) DEFAULT NULL,
-  `name` varchar(100) DEFAULT NULL,
-  `Role` int(11) DEFAULT NULL
+  `img` varchar(1000) DEFAULT NULL,
+  `name` varchar(100) NOT NULL,
+  `Role` int(11) NOT NULL DEFAULT 2
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
@@ -180,10 +156,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`Id`, `username`, `password`, `email`, `date_of_birth`, `img`, `name`, `Role`) VALUES
-(1, 'admin123', 'adminpass123', 'admin@example.com', '1990-05-25', 'admin.jpg', 'Admin User', 1),
-(2, 'user456', 'userpass456', 'user@example.com', '1995-09-10', 'user.jpg', 'Regular User', 2),
-(3, 'john_doe', 'johnpass789', 'john@example.com', '1988-12-18', 'john.jpg', 'John Doe', 2),
-(4, 'sarah_smith', 'sarahpass321', 'sarah@example.com', '1992-03-07', 'sarah.jpg', 'Sarah Smith', 2);
+(2, 'user456', 'userpass456', 'user@example.com', '1995-09-10', 'https://images-ext-1.discordapp.net/external/wg5as83L_jGW5qRZqD-vFY9QBSWfnG7A9cUnzEvR37Q/%3Fq%3Dtbn%3AANd9GcT32TRqMNY1jQHaL3L4ENSzCFDd8ZOt-SdrqeMy6m_sbdAA7nXJRNXWWSUCbyzdsL0BNvc%26usqp%3DCAU/https/encrypted-tbn0.gstatic.com/images?width=281&height=281', 'Regular User', 2),
+(5, 'Ahmad', '@125319', '@gmail.com', '2023-11-17', 'sdfghjkl', 'ahnmm', 1),
+(6, 'khaled', 'asdfghjkl', 'asdfghj', '2023-11-17', 'Zxcvbnm', 'Zxcvbnm', 2),
+(7, 'testuser', 'testpassword', 'testuser@example.com', '1990-01-01', NULL, '', 2);
 
 --
 -- Indexes for dumped tables
@@ -241,19 +217,19 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `E_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `E_Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `Id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- Constraints for dumped tables

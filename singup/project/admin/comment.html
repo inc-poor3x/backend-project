@@ -1,0 +1,131 @@
+
+
+
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Accept Comments</title>
+    
+    <style>
+        /* Styles for the form container */
+        form {
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    
+        /* Styles for the comment text */
+        p {
+            margin-bottom: 10px;
+        }
+    
+        /* Styles for the Yes and No buttons */
+        button {
+            padding: 8px 16px;
+            margin-right: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    
+        button[type="submit"] {
+            background-color: #4CAF50;
+            color: white;
+        }
+    
+        button[type="button"] {
+            background-color: #f44336;
+            color: white;
+        }
+    </style>
+    
+</head>
+<body>
+    <h1>Accept Comments</h1>
+
+    <div id="commentContainer"></div>
+
+    <script>
+        function updateCommentStatus(commentId, status) {
+            // C:\xampp\htdocs\singup\project\comment.php
+            fetch('http://localhost/singup/project/comment.php', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `comment_id=${commentId}&status=${status}`
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data.message); // Log the response message
+                // Handle success or additional operations as needed
+            })
+            .catch(error => {
+                console.error('Error updating comment status:', error);
+            });
+        }
+
+        fetch('http://localhost/singup/project/comment.php')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const commentContainer = document.getElementById('commentContainer');
+                if (data && Array.isArray(data)) {
+                    data.forEach(comment => {
+                        const commentForm = document.createElement('form');
+
+                        const commentIdInput = document.createElement('input');
+                        commentIdInput.type = 'hidden';
+                        commentIdInput.name = 'comment_id';
+                        commentIdInput.value = comment.Id;
+
+                        const commentText = document.createElement('p');
+                        commentText.textContent = comment.Comments_content;
+
+                        const yesButton = document.createElement('button');
+                        yesButton.textContent = 'Yes';
+                        yesButton.type = 'button';
+
+                        yesButton.addEventListener('click', () => {
+                            updateCommentStatus(comment.Id, 1); // Assuming 1 represents 'Yes'
+                        });
+                        
+
+                        const noButton = document.createElement('button');
+                        noButton.textContent = 'No';
+                        noButton.type = 'button';
+                        noButton.addEventListener('click', () => {
+                            updateCommentStatus(comment.Id, 2); // Assuming 0 represents 'No'
+                        });
+
+                        commentForm.appendChild(commentIdInput);
+                        commentForm.appendChild(commentText);
+                        commentForm.appendChild(yesButton);
+                        commentForm.appendChild(noButton);
+
+                        commentContainer.appendChild(commentForm);
+                    });
+                } else {
+                    console.error('Invalid or empty response data.');
+                }
+            })
+            .catch(error => {
+                console.error('Error fetching or processing comments:', error);
+            });
+    </script>
+    
+</body>
+</html>
